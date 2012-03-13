@@ -8,9 +8,9 @@ All the 'git-commit' hooks are invoked with the environment variable GIT_EDITOR=
 ## pre-commit
 
 ### Invocation
-Can be bypassed with --no-verify option. 
-Runs before obtaining the proposed commit log message and making a commit. 
-Exiting with non-zero status aborts the commit and no change is made.
+ * Can be bypassed with --no-verify option. 
+ * Runs before obtaining the proposed commit log message and making a commit. 
+ * Exiting with non-zero status aborts the commit and no change is made.
 
 ### Typical usages
  * Catch introduction of lines with trailing whitespaces and aborts the commit when such a line is found.
@@ -18,9 +18,9 @@ Exiting with non-zero status aborts the commit and no change is made.
 ## prepare-commit-msg
 
 ### Invocation
-Not suppressed by the --no-verify option.
-Runs after obtaining the default log message, but before the editor is started.
-Exiting with non-zero status aborts the commit and no change is made.
+ * Not suppressed by the --no-verify option.
+ * Runs after obtaining the default log message, but before the editor is started.
+ * Exiting with non-zero status aborts the commit and no change is made.
 
 ### Parameters
 One to three parameters.
@@ -42,8 +42,8 @@ One to three parameters.
 ## commit-msg
 
 ### Invocation
-Can be bypassed with --no-verify option. 
-Exiting with non-zero status aborts the commit and no change is made.
+ * Can be bypassed with --no-verify option. 
+ * Exiting with non-zero status aborts the commit and no change is made.
 
 ### Parameters
 One to three parameters.
@@ -58,8 +58,8 @@ One to three parameters.
 ## post-commit
 
 ### Invocation
-Runs after a commit is made.
-Exit status has no impact.
+ * Runs after a commit is made.
+ * Exit status has no impact.
 
 #### Typical usages
  * Notifications

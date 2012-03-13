@@ -7,8 +7,8 @@ Invoked before the patch is applied.
 Same purpose as commit-msg hook.
 
 ### Invocation
-Runs before the patch is applied.
-Exiting with non-zero aborts the patch and no change is made.
+ * Runs before the patch is applied.
+ * Exiting with non-zero aborts the patch and no change is made.
 
 ### Parameters
 
@@ -23,8 +23,8 @@ Exiting with non-zero aborts the patch and no change is made.
 ## pre-applypatch
 
 ### Invocation
-Runs after the patch is applied, but before a commit is made.
-Exiting with non-zero aborts the commit, leaving the patch applied.
+ * Runs after the patch is applied, but before a commit is made.
+ * Exiting with non-zero aborts the commit, leaving the patch applied.
 
 ### Typical usages
  * Inspect the current working tree and refuse to make a commit if it does not pass certain test. 
@@ -33,8 +33,8 @@ Exiting with non-zero aborts the commit, leaving the patch applied.
 ## post-applypatch
 
 ### Invocation
-Runs after the patch is applied and a commit is made.
-Exit status has no impact.
+ * Runs after the patch is applied and a commit is made.
+ * Exit status has no impact.
 
 ### Typical usages
  * Notifications

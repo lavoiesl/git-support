@@ -4,8 +4,8 @@ Hooks called by 'git-checkout'
 ## post-checkout
 
 ### Invocation
-Runs after having updated the worktree.
-Exit status has no impact.
+ * Runs after having updated the worktree.
+ * Exit status has no impact.
 
 ### Parameters
  1. Ref of the previous HEAD
