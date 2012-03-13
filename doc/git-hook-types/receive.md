@@ -17,7 +17,7 @@ It takes no arguments, but for each ref to be updated it receives on standard in
 
  1. The old object name stored in the ref
  2. The new object name to be stored in the ref
- 3. The full name of the ref. 
+ 3. The full name of the ref.
 
 When creating a new ref, the first parameter is 40 0.
 
@@ -60,13 +60,13 @@ It takes no arguments, but receives the same input as the pre-receive hook.
  * Executes on the remote repository once after all the refs have been updated.
  * Exit status has no impact.
 
-### Parameters 
+### Parameters
 Takes a variable number of parameters, each of which is the name of ref that was actually updated.
 
 ### Typical usages
  * Send commit emails.
 
-The 'post-update' hook can tell what are the heads that were pushed, but it does not know what their original and updated values are, so it is a poor place to do log old..new. 
-The post-receive hook does get both original and updated values of the refs. 
+The 'post-update' hook can tell what are the heads that were pushed, but it does not know what their original and updated values are, so it is a poor place to do log old..new.
+The post-receive hook does get both original and updated values of the refs.
 You might consider it instead if you need them.
 

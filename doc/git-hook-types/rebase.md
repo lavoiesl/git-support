@@ -1,4 +1,4 @@
-# Rebase 
+# Rebase
 Hooks called by 'git-rebase'
 
 ## pre-rebase

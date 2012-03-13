@@ -1,4 +1,4 @@
-# Checkout 
+# Checkout
 Hooks called by 'git-checkout'
 
 ## post-checkout
@@ -11,7 +11,7 @@ Hooks called by 'git-checkout'
  1. Ref of the previous HEAD
  2. Ref of the new HEAD (which may or may not have changed)
  3. A flag indicating whether the checkout was a branch checkout
-   * Changing branches, flag=1 
+   * Changing branches, flag=1
    * File checkout, retrieving a file from the index, flag=0
 
 ### Typical usages

@@ -1,6 +1,6 @@
 
 
-# Commit 
+# Commit
 Hooks invoked by git-commit script
 
 All the 'git-commit' hooks are invoked with the environment variable GIT_EDITOR=: if the command will not bring up an editor to modify the commit message.
@@ -8,8 +8,8 @@ All the 'git-commit' hooks are invoked with the environment variable GIT_EDITOR=
 ## pre-commit
 
 ### Invocation
- * Can be bypassed with --no-verify option. 
- * Runs before obtaining the proposed commit log message and making a commit. 
+ * Can be bypassed with --no-verify option.
+ * Runs before obtaining the proposed commit log message and making a commit.
  * Exiting with non-zero status aborts the commit and no change is made.
 
 ### Typical usages
@@ -35,14 +35,14 @@ One to three parameters.
  3. commit SHA1 (if a -c, -C or --amend option was given).
 
 ### Typical usages
- * Edit the message file in place. 
+ * Edit the message file in place.
  * Should not be used as replacement for pre-commit hook.
  * Comment out the Conflicts: part of a merge’s commit message.
 
 ## commit-msg
 
 ### Invocation
- * Can be bypassed with --no-verify option. 
+ * Can be bypassed with --no-verify option.
  * Exiting with non-zero status aborts the commit and no change is made.
 
 ### Parameters

@@ -27,7 +27,7 @@ Same purpose as commit-msg hook.
  * Exiting with non-zero aborts the commit, leaving the patch applied.
 
 ### Typical usages
- * Inspect the current working tree and refuse to make a commit if it does not pass certain test. 
+ * Inspect the current working tree and refuse to make a commit if it does not pass certain test.
  * Run the pre-commit hook, if the latter is enabled.
 
 ## post-applypatch

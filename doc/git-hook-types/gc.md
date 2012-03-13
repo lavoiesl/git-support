@@ -2,7 +2,7 @@
 
 ## pre-auto-gc
 
-This hook is invoked by 'git-gc --auto'. 
+This hook is invoked by 'git-gc --auto'.
 
 ### Invocation
  * Runs just before running the garbage collector.

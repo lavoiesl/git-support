@@ -1,4 +1,4 @@
-# Merge 
+# Merge
 Hooks called by 'git-merge'
 
 ## post-merge
