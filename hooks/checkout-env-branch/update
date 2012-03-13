@@ -1,0 +1,77 @@
+#!/bin/sh
+
+# --- Command line
+refname="$1"
+oldrev="$2"
+newrev="$3"
+
+if [ -z "$refname" -o -z "$oldrev" -o -z "$newrev" ]; then
+  echo "Usage: $0 <ref> <oldrev> <newrev>" >&2
+  exit 1
+fi
+
+# --- Check types
+# if $newrev is 0000...0000, it's a commit to delete a ref.
+zero="0000000000000000000000000000000000000000"
+if [[ $newrev = $zero || $(git cat-file -t $newrev) != commit ]]; then
+  # Not a branch commit
+  exit 0
+fi
+
+branch=""
+checkout_dir=""
+
+case $refname in
+  refs/heads/dev | refs/heads/stage)
+    # branch
+    branch=${refname/refs\/heads\//}
+    checkout_dir="$(git config --local branch.$branch.update-dir)"
+    ;;
+  *)
+    # Nothing to do
+    exit 0
+    ;;
+esac
+
+if [[ -z "$checkout_dir" || ! -d "$checkout_dir" ]]; then
+  # Not an environment
+  exit 0
+fi
+
+is_work_tree_clean () {
+  work_tree="$1"
+  GIT_DIR="$work_tree/.git"
+  cd "$work_tree"
+
+  # Unknown HEAD
+  git rev-parse --verify HEAD >/dev/null || return 1
+
+  # Refresh to speedup status
+  git update-index -q --ignore-submodules --refresh
+
+  if [[ -n "$(git status --porcelain --ignore-submodules)" ]]; then
+    return 1
+  fi
+
+  return 0
+}
+
+commit_work_tree () {
+  work_tree="$1"
+  author="$2"
+
+  GIT_DIR="$work_tree/.git"
+  cd "$work_tree"
+
+  git add .
+  git commit -qam 'Automatic commit triggered by update hook' --author="$author" >/dev/null
+  git push -q
+}
+
+if ! is_work_tree_clean "$checkout_dir"; then
+  commit_work_tree "$checkout_dir" "$project_name <$project_name@localhost>"
+  echo "$project_name/$branch had local modifications, pull to have modifications and try again."
+  exit 1
+fi
+
+exit 0

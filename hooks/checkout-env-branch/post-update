@@ -1,0 +1,38 @@
+#!/bin/sh
+
+update_work_tree () {
+  work_tree="$1"
+  branch="$2"
+
+  GIT_DIR="$work_tree/.git"
+  cd "$work_tree"
+
+  git fetch -q
+
+  if [[ "$(git rev-parse $branch)" != "$(git rev-parse origin/$branch)" ]]; then
+    echo "Updating $branch"
+    # -Xtheirs to always resolve using new modifications
+    # --recurse-submodules Fetch new commits of all populated submodules
+    # Only fast-forward is accepted
+    git pull -q -Xtheirs --recurse-submodules=yes --ff
+
+    # If submodules were added
+    git submodule update -q --recursive --init
+  fi
+}
+
+# Arguments contain all updated refnames
+for refname in $@; do
+  case $refname in
+    refs/heads/dev | refs/heads/stage)
+      # branch
+      branch=${refname/refs\/heads\//}
+      checkout_dir="$(git config --local branch.$branch.update-dir)"
+      if [[ -n "$checkout_dir" && -d "$checkout_dir" ]]; then
+        update_work_tree "$checkout_dir" $branch
+      fi
+      ;;
+  esac
+done
+
+exit 0
