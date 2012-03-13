@@ -1,79 +1,173 @@
 # Git hook documentation
-Simplified version of http://book.git-scm.com/5_git_hooks.html
+Simplified version of [http://book.git-scm.com/5\_git\_hooks.html](http://book.git-scm.com/5_git_hooks.html)
 
     // TODO: simplification
 
-## applypatch-msg
+## Apply patch
+Hooks invoked by git-am script
 
-This hook is invoked by git-am script. It takes a single parameter, the name of the file that holds the proposed commit log message. Exiting with non-zero status causes git-am to abort before applying the patch.
+### applypatch-msg
 
-The hook is allowed to edit the message file in place, and can be used to normalize the message into some project standard format (if the project has one). It can also be used to refuse the commit after inspecting the message file. The default applypatch-msg hook, when enabled, runs the commit-msg hook, if the latter is enabled.
+Invoked before the patch is applied.
+Same purpose as commit-msg hook.
 
-## pre-applypatch
+#### Invocation
+Runs before the patch is applied.
+Exiting with non-zero aborts the patch and no change is made.
 
-This hook is invoked by git-am. It takes no parameter, and is invoked after the patch is applied, but before a commit is made. If it exits with non-zero status, then the working tree will not be committed after applying the patch.
+#### Parameters
 
-It can be used to inspect the current working tree and refuse to make a commit if it does not pass certain test. The default pre-applypatch hook, when enabled, runs the pre-commit hook, if the latter is enabled.
+ 1. The file that holds the proposed commit log message
 
-## post-applypatch
+#### Typical usages
+ * Normalize the commit message.
+ * Refuse the commit after inspecting the message file
+ * Run the commit-msg hook, if the latter is enabled.
 
-This hook is invoked by 'git-am'. It takes no parameter, and is invoked after the patch is applied and a commit is made.
 
-This hook is meant primarily for notification, and cannot affect the outcome of 'git-am'.
+### pre-applypatch
 
-##pre-commit
+#### Invocation
+Runs after the patch is applied, but before a commit is made.
+Exiting with non-zero aborts the commit, leaving the patch applied.
 
-This hook is invoked by 'git-commit', and can be bypassed with --no-verify option. It takes no parameter, and is invoked before obtaining the proposed commit log message and making a commit. Exiting with non-zero status from this script causes the 'git-commit' to abort.
+#### Typical usages
+ * Inspect the current working tree and refuse to make a commit if it does not pass certain test. 
+ * Run the pre-commit hook, if the latter is enabled.
 
-The default 'pre-commit' hook, when enabled, catches introduction of lines with trailing whitespaces and aborts the commit when such a line is found.
+### post-applypatch
+
+#### Invocation
+Runs after the patch is applied and a commit is made.
+Exit status has no impact.
+
+#### Typical usages
+ * Notifications
+ * Run the post-commit hook, if the latter is enabled.
+
+## Commit 
+Hooks invoked by git-commit script
 
 All the 'git-commit' hooks are invoked with the environment variable GIT_EDITOR=: if the command will not bring up an editor to modify the commit message.
 
-## prepare-commit-msg
+### pre-commit
 
-This hook is invoked by 'git-commit' right after preparing the default log message, and before the editor is started.
+#### Invocation
+Can be bypassed with --no-verify option. 
+Runs before obtaining the proposed commit log message and making a commit. 
+Exiting with non-zero status aborts the commit and no change is made.
 
-It takes one to three parameters. The first is the name of the file that the commit log message. The second is the source of the commit message, and can be: message (if a -m or -F option was given); template (if a -t option was given or the configuration option commit.template is set); merge (if the commit is a merge or a .git/MERGE_MSG file exists); squash (if a .git/SQUASH_MSG file exists); or commit, followed by a commit SHA1 (if a -c, -C or --amend option was given).
+#### Typical usages
+ * Catch introduction of lines with trailing whitespaces and aborts the commit when such a line is found.
 
-If the exit status is non-zero, 'git-commit' will abort.
+### prepare-commit-msg
 
-The purpose of the hook is to edit the message file in place, and it is not suppressed by the --no-verify option. A non-zero exit means a failure of the hook and aborts the commit. It should not be used as replacement for pre-commit hook.
+#### Invocation
+Not suppressed by the --no-verify option.
+Runs after obtaining the default log message, but before the editor is started.
+Exiting with non-zero status aborts the commit and no change is made.
 
-The sample prepare-commit-msg hook that comes with git comments out the Conflicts: part of a merge's commit message.
+#### Parameters
+One to three parameters.
 
-## commit-msg
+ 1. Name of the file of the commit log message
+ 2. Source of the commit message, and can be
+   * message (if a -m or -F option was given)
+   * template (if a -t option was given or the configuration option commit.template is set)
+   * merge (if the commit is a merge or a .git/MERGE_MSG file exists)
+   * squash (if a .git/SQUASH_MSG file exists)
+   * commit
+ 3. commit SHA1 (if a -c, -C or --amend option was given).
 
-This hook is invoked by 'git-commit', and can be bypassed with --no-verify option. It takes a single parameter, the name of the file that holds the proposed commit log message. Exiting with non-zero status causes the 'git-commit' to abort.
+#### Typical usages
+ * Edit the message file in place. 
+ * Should not be used as replacement for pre-commit hook.
+ * Comment out the Conflicts: part of a merge’s commit message.
 
-The hook is allowed to edit the message file in place, and can be used to normalize the message into some project standard format (if the project has one). It can also be used to refuse the commit after inspecting the message file.
+### commit-msg
 
-The default 'commit-msg' hook, when enabled, detects duplicate "Signed-off-by" lines, and aborts the commit if one is found.
+#### Invocation
+Can be bypassed with --no-verify option. 
+Exiting with non-zero status aborts the commit and no change is made.
 
-## post-commit
+#### Parameters
+One to three parameters.
 
-This hook is invoked by 'git-commit'. It takes no parameter, and is invoked after a commit is made.
+ 1. Name of the file of the commit log message
 
-This hook is meant primarily for notification, and cannot affect the outcome of 'git-commit'.
+#### Typical usages
+ * Normalize the commit message.
+ * Refuse the commit after inspecting the commit message.
+ * Detect duplicate "Signed-off-by" lines, and abort the commit if one is found.
 
-## pre-rebase
+### post-commit
 
-This hook is called by 'git-rebase' and can be used to prevent a branch from getting rebased.
+#### Invocation
+Runs after a commit is made.
+Exit status has no impact.
 
-## post-checkout
+#### Typical usages
+ * Notifications
 
-This hook is invoked when a 'git-checkout' is run after having updated the worktree. The hook is given three parameters: the ref of the previous HEAD, the ref of the new HEAD (which may or may not have changed), and a flag indicating whether the checkout was a branch checkout (changing branches, flag=1) or a file checkout (retrieving a file from the index, flag=0). This hook cannot affect the outcome of 'git-checkout'.
+## Rebase 
+Hooks called by 'git-rebase'
 
-This hook can be used to perform repository validity checks, auto-display differences from the previous HEAD if different, or set working dir metadata properties.
+### pre-rebase
 
-## post-merge
+#### Invocation
+Runs before the rebase starts
+Exiting with non-zero status aborts the rebase and no change is made.
 
-This hook is invoked by 'git-merge', which happens when a 'git-pull' is done on a local repository. The hook takes a single parameter, a status flag specifying whether or not the merge being done was a squash merge. This hook cannot affect the outcome of 'git-merge' and is not executed, if the merge failed due to conflicts.
 
-This hook can be used in conjunction with a corresponding pre-commit hook to save and restore any form of metadata associated with the working tree (eg: permissions/ownership, ACLS, etc). See contrib/hooks/setgitperms.perl for an example of how to do this.
+## Checkout 
+Hooks called by 'git-checkout'
 
-## pre-receive
+### post-checkout
 
-This hook is invoked by 'git-receive-pack' on the remote repository, which happens when a 'git-push' is done on a local repository. Just before starting to update refs on the remote repository, the pre-receive hook is invoked. Its exit status determines the success or failure of the update.
+#### Invocation
+Runs after having updated the worktree.
+Exit status has no impact.
+
+#### Parameters
+ 1. Ref of the previous HEAD
+ 2. Ref of the new HEAD (which may or may not have changed)
+ 3. A flag indicating whether the checkout was a branch checkout
+   * Changing branches, flag=1 
+   * File checkout, retrieving a file from the index, flag=0
+
+#### Typical usages
+ * Perform repository validity checks
+ * Auto-display differences from the previous HEAD if different
+ * Set working dir metadata properties
+
+## Merge 
+Hooks called by 'git-merge'
+
+### post-merge
+
+#### Invocation
+Runs after a git-merge or a git-pull.
+Not executed if the merge failed due to conflicts.
+Exit status has no impact.
+
+#### Parameters
+ 1. A status flag specifying whether or not the merge being done was a squash merge.
+
+#### Typical usages
+See contrib/hooks/setgitperms.perl
+
+ * Can be used in conjunction with a corresponding pre-commit hook to save and restore any form of metadata associated with the working tree
+   * Permissions/ownership
+   * ACLS
+
+## Receive
+Hooks called by 'git-receive-pack' on the remote repository, which happens when a 'git-push' is done on a local repository.
+
+### pre-receive
+
+#### Invocation
+Runs just before starting to update refs on the remote repository
+Exiting with non-zero status aborts the update and no change is made.
 
 This hook executes once for the receive operation. It takes no arguments, but for each ref to be updated it receives on standard input a line of the format:
 
