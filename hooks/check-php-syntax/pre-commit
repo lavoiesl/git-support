@@ -1,0 +1,24 @@
+#!/bin/sh
+
+if git-rev-parse --verify HEAD >/dev/null 2>&1 ; then
+  against=HEAD
+else
+  # Initial commit: diff against an empty tree object
+  against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
+fi
+error=0
+# Find php/html files with modifications
+for FILE in `git diff --name-status $against | grep '^[AM]' | grep -E '\.(php|html)$' | sed -E 's/[AM][[:space:]]+//'`; do
+  if ! php -l "$FILE" 1>/dev/null; then
+    # php -l already outputs an error
+    # Do not exit now, so all errors are listed
+    error=1
+  fi
+done
+
+if [[ $error ]]; then
+  echo "Refusing to commit because PHP files have syntax errors" >&2
+  exit 1
+else
+  exit 0
+fi
