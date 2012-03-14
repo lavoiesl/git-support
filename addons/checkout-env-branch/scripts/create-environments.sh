@@ -42,7 +42,8 @@ git clone "$bare_dir" "$tmpdir"
 
 cd "$tmpdir"
 
-git checkout -b $default_env
+# Change HEAD to $default_env
+git symbolic-ref HEAD refs/heads/$default_env
 git commit --allow-empty -m 'Initial commit'
 
 for env in $other_envs; do
@@ -52,9 +53,6 @@ done
 git push origin $environments
 
 cd "$bare_dir"
-
-# Change HEAD to $default_env
-git symbolic-ref HEAD refs/heads/$default_env
 
 rm -Rf $tmpdir
 
