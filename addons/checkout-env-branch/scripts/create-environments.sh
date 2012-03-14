@@ -5,6 +5,7 @@ DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Hooks to be copied
 hooks="update post-update"
+hooks_dir="$(dirname $PWD)/hooks"
 
 # Configuration
 # TODO: get those from arguments
@@ -67,5 +68,5 @@ done
 
 # Add hooks
 for hook in $hooks; do
-  cp -v "$DIR/$hook" "$bare_dir/hooks/"
+  ln -sv "$hooks_dir/$hook" "$bare_dir/hooks/"
 done
