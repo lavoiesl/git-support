@@ -36,7 +36,7 @@ fi
 git init --bare "$bare_dir"
 
 # Create root commit and all branches
-tmpdir="$(mktemp -d -t create-repo)"
+tmpdir="$(mktemp -d /tmp/create-repo.XXXXXXX)"
 
 git clone "$bare_dir" "$tmpdir"
 
