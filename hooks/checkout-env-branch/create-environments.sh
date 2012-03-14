@@ -7,6 +7,7 @@ DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 hooks="update post-update"
 
 # Configuration
+# TODO: get those from arguments
 root="$PWD"
 project_root="$root/repositories"
 env_root="$root/environments"
