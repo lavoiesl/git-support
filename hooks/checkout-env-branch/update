@@ -47,6 +47,7 @@ is_work_tree_clean () {
   git rev-parse --verify HEAD >/dev/null || return 1
 
   # Refresh to speedup status
+  # --ignore-submodules because it's useless to commit submodules
   git update-index -q --ignore-submodules --refresh
 
   if [[ -n "$(git status --porcelain --ignore-submodules)" ]]; then
