@@ -12,9 +12,8 @@ update_work_tree () {
   if [[ "$(git rev-parse $branch)" != "$(git rev-parse origin/$branch)" ]]; then
     echo "Updating $branch"
     # -Xtheirs to always resolve using new modifications
-    # --recurse-submodules Fetch new commits of all populated submodules
     # Only fast-forward is accepted
-    git pull -q -Xtheirs --recurse-submodules=yes --ff
+    git pull -q -Xtheirs --ff
 
     # If submodules were added
     git submodule update -q --recursive --init
