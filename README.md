@@ -1,7 +1,6 @@
 # GitSupport
 
 Collection of Git knowledge featuring documentation, tutorials, hooks and scripts for various tasks.
-Also includes the sample and contrib hooks of a default Git installation.
 
 ## Documentation
 Dig through the folders to find various READMEs.
