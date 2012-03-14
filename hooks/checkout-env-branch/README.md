@@ -10,7 +10,7 @@ If you develop a website that has an environment **dev** and **stage**, your tre
  * /mnt/environments/**mywebsite**/**stage**
 
 ## Configuration
-For all the branches that are managed by this hook, a configuration should exists so that branch.<branch>.update-dir points to a valid git repository
+For all the branches that are managed by this hook, a configuration should exists so that branch.**$branch**.update-dir points to a valid git repository
 
 ## Pushing
 When a push is made to the bare repository, two hooks are fired
@@ -18,11 +18,11 @@ When a push is made to the bare repository, two hooks are fired
 ### update hook
 The update hook is fired before the update is made and it checks if it’s a commit on a branch.
 
-If branch.<branch>.update-dir exists, this repository is checked if it has local modifications.
+If branch.**$branch**.update-dir exists, this repository is checked if it has local modifications.
 
 If it has modifications, an automatic commit is made and the update is cancelled.
 
 ### post-update hook
 The update hook is fired after the update was succesful.
 
-If branch.<branch>.update-dir exists, this repository does a git pull -Xtheirs.
+If branch.**$branch**.update-dir exists, this repository does a git pull -Xtheirs.
