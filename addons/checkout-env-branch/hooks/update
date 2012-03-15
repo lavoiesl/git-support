@@ -20,6 +20,8 @@ fi
 
 branch=""
 checkout_dir=""
+project_name=$(basename "$PWD")
+project_name=${project_name/.git/}
 
 case $refname in
   refs/heads/dev | refs/heads/stage)
