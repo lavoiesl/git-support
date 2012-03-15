@@ -53,6 +53,7 @@ done
 git push origin $environments
 
 cd "$bare_dir"
+GIT_DIR="$bare_dir" git symbolic-ref HEAD refs/heads/$default_env
 
 rm -Rf $tmpdir
 
