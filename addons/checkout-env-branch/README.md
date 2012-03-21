@@ -26,3 +26,9 @@ If it has modifications, an automatic commit is made and the update is cancelled
 The update hook is fired after the update was succesful.
 
 If branch.**$branch**.update-dir exists, this repository does a git pull -Xtheirs.
+
+## Creation script
+
+A script is included that creates repos and environments for these hooks
+
+It also adds the hooks and optionally clones from a skeleton, check it out

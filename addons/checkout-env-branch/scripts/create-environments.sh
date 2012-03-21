@@ -12,6 +12,8 @@ hooks_dir="$(dirname $DIR)/hooks"
 root="$PWD"
 project_root="$root/repositories"
 env_root="$root/environments"
+# The skeleton repository represent the basic structure for a new repo
+skeleton="$project_root/skeleton.git"
 default_env="dev"
 other_envs="stage"
 environments="$default_env $other_envs"
@@ -32,8 +34,13 @@ if [[ -d "$bare_dir" ]]; then
   exit 2
 fi
 
-# Create bare repository
-git init --bare "$bare_dir"
+# If skeleton exists, clone it
+if [[ -d "$skeleton" ]]; then
+  git clone --bare "$skeleton" "$bare_dir"
+else
+  # Else, create a bare repository
+  git init --bare "$bare_dir"
+fi
 
 # Create root commit and all branches
 tmpdir="$(mktemp -d /tmp/create-repo.XXXXXXX)"
