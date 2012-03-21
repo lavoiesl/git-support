@@ -22,8 +22,17 @@ environments="$default_env $other_envs"
 project_name="$1"
 
 if [[ -z "$project_name" ]]; then
-  echo "Usage: $0 <project-name>" >&2
+  echo "Usage: $0 project-name [default-env] [other-envs]" >&2
   exit 1
+fi
+
+shift
+
+if [[ -n "$@" ]]; then
+  environments="$@"
+  default_env=$1
+  shift
+  other_envs="$@"
 fi
 
 bare_dir="$project_root/$project_name.git"
