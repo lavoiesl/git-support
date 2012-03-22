@@ -24,7 +24,7 @@ project_name=$(basename "$PWD")
 project_name=${project_name/.git/}
 
 case $refname in
-  refs/heads/dev | refs/heads/stage)
+  refs/heads/*)
     # branch
     branch=${refname/refs\/heads\//}
     checkout_dir="$(git config --local branch.$branch.update-dir)"

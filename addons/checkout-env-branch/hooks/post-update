@@ -23,7 +23,7 @@ update_work_tree () {
 # Arguments contain all updated refnames
 for refname in $@; do
   case $refname in
-    refs/heads/dev | refs/heads/stage)
+    refs/heads/*)
       # branch
       branch=${refname/refs\/heads\//}
       checkout_dir="$(git config --local branch.$branch.update-dir)"
